@@ -275,7 +275,7 @@ async function loadAvailability() {
         const ordersData = await ordersRes.json();
         fullDates = {};
         (ordersData.records || []).forEach(r => {
-            if (r.fields.Ready_Date) { const d = r.fields.Ready_Date.split('T')[0]; fullDates[d] = (fullDates[d] || 0) + 1; }
+            if (r.fields.Ready_Date) { const d = new Date(r.fields.Ready_Date).toLocaleDateString('en-US', { timeZone: 'America/Chicago' }).split('/').reverse().map((v,i) => i===0 ? v : v.padStart(2,'0')).join('-'); fullDates[d] = (fullDates[d] || 0) + 1; }
         });
         showAvailabilityBanner();
     } catch(e) { console.log('Availability check skipped:', e.message); }
